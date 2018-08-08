@@ -10,13 +10,7 @@ const selectSlide = (element) => {
   mainElement.appendChild(element.cloneNode(true));
 };
 
-const screenTags = [`intro`, `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`, `modal-error`, `modal-confirm`];
-const screens = [];
-
-screenTags.forEach(function (screenTag) {
-  const currentScreen = document.querySelector(`#${screenTag}`).content;
-  screens.push(currentScreen);
-});
+const screens = [`intro`, `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`, `modal-error`, `modal-confirm`].map((item) => document.querySelector(`#${item }`).content);
 
 let current = 0;
 const select = (index) => {
@@ -38,7 +32,7 @@ document.addEventListener(`keydown`, (evt) => {
 });
 
 const buttonsElement = document.createElement(`div`);
-buttonsElement.setAttribute(`class`, `arrows__wrap`);
+buttonsElement.classList.add(`arrows__wrap`);
 buttonsElement.innerHTML = `
     <style>
       .arrows__wrap {
@@ -58,7 +52,7 @@ buttonsElement.innerHTML = `
     <button class="arrows__btn">-></button>
 `;
 document.body.appendChild(buttonsElement);
-const arrowButtons = document.querySelectorAll(`.arrows__btn`);
+const arrowButtons = buttonsElement.querySelectorAll(`.arrows__btn`);
 
 arrowButtons[0].addEventListener(`click`, (event) => {
   event.preventDefault();
