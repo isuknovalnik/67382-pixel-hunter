@@ -81,11 +81,11 @@ questionsInputs.forEach((it) => {
 const allQuestions = [question1, question2];
 
 const isAnswered = (question) => {
-  return question.some((it) => it.checked) ? true : false;
+  return question.some((it) => it.checked);
 };
 
 const allAnswered = (questions) => {
-  return questions.every((it) => isAnswered(it)) ? true : false;
+  return questions.every((it) => isAnswered(it));
 };
 
 const checkQuestion = (questionInput) => {
