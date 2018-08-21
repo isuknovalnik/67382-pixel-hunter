@@ -40,11 +40,7 @@ const backButton = rules.querySelector(`.back`);
 backToGreeting(backButton);
 
 playerName.addEventListener(`input`, () => {
-  if (playerName.value) {
-    rulesButton.removeAttribute(`disabled`);
-  } else {
-    rulesButton.setAttribute(`disabled`, `disabled`);
-  }
+  rulesButton.disabled = !playerName.value;
 });
 
 rulesButton.addEventListener(`click`, () => {

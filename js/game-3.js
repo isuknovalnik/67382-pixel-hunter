@@ -60,8 +60,6 @@ const game3Checked = (game3Option) => {
   });
 };
 
-game3Options.forEach((it) => {
-  game3Checked(it);
-});
+game3Options.forEach(game3Checked);
 
 export default game3;

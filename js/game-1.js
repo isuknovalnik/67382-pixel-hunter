@@ -81,21 +81,11 @@ questionsInputs.forEach((it) => {
 const allQuestions = [question1, question2];
 
 const isAnswered = (question) => {
-  for (let i = 0; i < question.length; i++) {
-    if (question[i].checked) {
-      return true;
-    }
-  }
-  return false;
+  return question.some((it) => it.checked) ? true : false;
 };
 
 const allAnswered = (questions) => {
-  for (let i = 0; i < questions.length; i++) {
-    if (!isAnswered(questions[i])) {
-      return false;
-    }
-  }
-  return true;
+  return questions.every((it) => isAnswered(it)) ? true : false;
 };
 
 const checkQuestion = (questionInput) => {
@@ -106,8 +96,6 @@ const checkQuestion = (questionInput) => {
   });
 };
 
-questionsInputs.forEach((it) => {
-  checkQuestion(it);
-});
+questionsInputs.forEach(checkQuestion);
 
 export default game1;

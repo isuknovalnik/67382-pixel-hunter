@@ -62,8 +62,6 @@ const game2Checked = (game2Input) => {
   });
 };
 
-game2Inputs.forEach((it) => {
-  game2Checked(it);
-});
+game2Inputs.forEach(game2Checked);
 
 export default game2;
