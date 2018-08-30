@@ -56,10 +56,10 @@ export const changeAnswers = (game, answer, time) => {
     throw new Error(`Time should not be more than 30 seconds`);
   }
 
-  const answers = game.answers.slice();
+  const answers = Array.from(game.answers);
   answers.push({
-    "answer": answer,
-    "time": time
+    answer,
+    time,
   });
 
   const newGame = Object.assign({}, game, {
@@ -69,7 +69,7 @@ export const changeAnswers = (game, answer, time) => {
 };
 
 export const scoring = (allAnswers, lives) => {
-  if (!(allAnswers instanceof Array)) {
+  if (!(Array.isArray(allAnswers))) {
     throw new Error(`Answers should be an Array`);
   }
   if (typeof lives !== `number`) {
@@ -125,6 +125,6 @@ export const scoring = (allAnswers, lives) => {
   if (lives !== checkLives) {
     throw new Error(`Lives number should be equal to 3 minus errors number`);
   }
-  score += (lives * 50);
+  score += lives * 50;
   return score;
 };
