@@ -167,12 +167,12 @@ export const TEST_ANSWERS_3 = [
 ];
 
 export const TEST_RESULT_3 = {
-    "base": 800,
-    "speedBonus": 2,
-    "livesBonus": 1,
-    "slothFine": 3,
-    "total": 800,
-  };
+  "base": 800,
+  "speedBonus": 2,
+  "livesBonus": 1,
+  "slothFine": 3,
+  "total": 800,
+};
 
 export const changeLevel = (game, level) => {
   if (typeof level !== `number`) {
