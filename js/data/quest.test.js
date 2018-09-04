@@ -68,7 +68,12 @@ const TEST_ANSWERS_PART = [
   {
     "answer": true,
     "time": 2
-  }
+  },
+  {},
+  {},
+  {},
+  {},
+  {}
 ];
 
 const TEST_ANSWER_NOT_OBJECT = [
@@ -542,7 +547,7 @@ const TEST_ANSWERS_0 = [
 ];
 
 const TEST_GAME = Object.freeze({
-  level: 5,
+  level: 6,
   lives: 3,
   answers: TEST_ANSWERS_PART
 });
@@ -632,10 +637,10 @@ suite(`Check scoring`, () => {
   });
 
   test(`scoring works correctly`, () => {
-    assert.equal(scoring(TEST_ANSWERS, 1), 800);
-    assert.equal(scoring(TEST_ANSWERS_2, 2), 1000);
-    assert.equal(scoring(TEST_ANSWERS_3, 3), 1000);
-    assert.equal(scoring(TEST_ANSWERS_0, 0), 600);
+    assert.equal(scoring(TEST_ANSWERS, 1).total, 800);
+    assert.equal(scoring(TEST_ANSWERS_2, 2).total, 1000);
+    assert.equal(scoring(TEST_ANSWERS_3, 3).total, 1000);
+    assert.equal(scoring(TEST_ANSWERS_0, 0).total, 600);
   });
 
 });

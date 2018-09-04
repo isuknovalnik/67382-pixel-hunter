@@ -251,7 +251,7 @@ export const scoring = (allAnswers, lives) => {
   if (lives > 3) {
     throw new Error(`Lives should not be more than 3`);
   }
-  if (allAnswers.length < 10) {
+  if (allAnswers.find((it) => (Object.keys(it).length === 0))) {
     return -1;
   }
   let base = 0;
