@@ -1,9 +1,11 @@
 import {assert} from 'chai';
-import {INITIAL_GAME} from './quest.js';
-import {changeLevel} from './quest.js';
-import {changeLives} from './quest.js';
-import {changeAnswers} from './quest.js';
-import {scoring} from './quest.js';
+import {
+  INITIAL_GAME,
+  changeLevel,
+  changeLives,
+  changeAnswers,
+  scoring
+} from './quest.js';
 
 const TEST_ANSWERS = [
   {
@@ -68,12 +70,7 @@ const TEST_ANSWERS_PART = [
   {
     "answer": true,
     "time": 2
-  },
-  {},
-  {},
-  {},
-  {},
-  {}
+  }
 ];
 
 const TEST_ANSWER_NOT_OBJECT = [

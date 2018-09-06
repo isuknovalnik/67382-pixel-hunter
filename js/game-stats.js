@@ -1,7 +1,4 @@
 const makeStatsElement = (result) => {
-  if (result.answer === undefined) {
-    return `<li class="stats__result stats__result--unknown"></li>`;
-  }
   if (result.answer) {
     if (result.time < 10) {
       return `<li class="stats__result stats__result--fast"></li>`;
@@ -15,6 +12,16 @@ const makeStatsElement = (result) => {
   }
 };
 
-export const gameStats = (results) => `<ul class="stats">
-      ${[...results].map((it) => makeStatsElement(it)).join(``)}
-    </ul>`;
+const makeUnknownElements = (n) => {
+  let elements = ``;
+  for (let i = 0; i < n; i++) {
+    elements = elements + `<li class="stats__result stats__result--unknown"></li>`;
+  }
+  return elements;
+};
+
+export const gameStats = (results) => {
+  return `<ul class="stats">
+    ${[...results].map((it) => makeStatsElement(it)).join(``)}${(results.length === 10) ? `` : makeUnknownElements(10 - results.length)}
+  </ul>`;
+};

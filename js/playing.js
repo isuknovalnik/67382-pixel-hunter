@@ -1,15 +1,17 @@
-import {INITIAL_GAME} from './data/quest.js';
-import {TEST_QUESTIONS} from './data/quest.js';
+import {
+  INITIAL_GAME,
+  TEST_QUESTIONS,
+  changeLevel,
+  changeAnswers,
+  changeLives,
+  scoring,
+  TEST_ANSWERS_2,
+  TEST_ANSWERS_3,
+  TEST_RESULT_3
+} from './data/quest.js';
 import {newGameScreen} from './game-screen.js';
 import selectScreen from './select-screen.js';
 import {showStats} from './stats.js';
-import {changeLevel} from './data/quest.js';
-import {changeAnswers} from './data/quest.js';
-import {changeLives} from './data/quest.js';
-import {scoring} from './data/quest.js';
-import {TEST_ANSWERS_2} from './data/quest.js';
-import {TEST_ANSWERS_3} from './data/quest.js';
-import {TEST_RESULT_3} from './data/quest.js';
 
 let currentGame;
 

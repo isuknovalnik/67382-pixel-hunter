@@ -4,12 +4,26 @@ import {gameStats} from './game-stats.js';
 import {headerTemplate} from './header.js';
 import {answeredQuestion} from './playing.js';
 
+const forms = [
+  null,
+  `<form class="game__content">`,
+  `<form class="game__content  game__content--wide">`,
+  `<form class="game__content  game__content--triple">`,
+];
+
+const imgTails = [
+  null,
+  `width="468" height="458">`,
+  `width="705" height="455">`,
+  `width="304" height="455">`,
+];
+
 export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => {
   const template = `<section class="game">
     <p class="game__task">${currentQuestion.task}</p>
-    ${(currentQuestion.type === 3) ? `<form class="game__content  game__content--triple">` : ``}${(currentQuestion.type === 2) ? `<form class="game__content  game__content--wide">` : ``}${(currentQuestion.type === 1) ? `<form class="game__content">` : ``}
+    ${forms[currentQuestion.type]}
       <div class="game__option">
-        ${(currentQuestion.type === 3) ? `<img src="${currentQuestion.answer}" alt="Option 1" width="304" height="455">` : ``}${(currentQuestion.type === 2) ? `<img src="${currentQuestion.answer}" alt="Option 1" width="705" height="455">` : ``}${(currentQuestion.type === 1) ? `<img src="${currentQuestion.answer}" alt="Option 1" width="468" height="458">` : ``}
+        <img src="${currentQuestion.answers[0].answer}" alt="Option 1" ${imgTails[currentQuestion.type]}
         ${(currentQuestion.type < 3) ? `<label class="game__answer game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -20,7 +34,7 @@ export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => 
         </label>` : ``}
       </div>
       ${(currentQuestion.type === 1) ? `<div class="game__option">
-        <img src="${currentQuestion.answer2}" alt="Option 2" width="468" height="458">
+        <img src="${currentQuestion.answers[1].answer}" alt="Option 2" width="468" height="458">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -31,10 +45,10 @@ export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => 
         </label>
       </div>` : ``}
       ${(currentQuestion.type === 3) ? `<div class="game__option  game__option--selected">
-        <img src="${currentQuestion.answer2}" alt="Option 2" width="304" height="455">
+        <img src="${currentQuestion.answers[1].answer}" alt="Option 2" width="304" height="455">
       </div>
       <div class="game__option">
-        <img src="${currentQuestion.answer3}" alt="Option 3" width="304" height="455">
+        <img src="${currentQuestion.answers[2].answer}" alt="Option 3" width="304" height="455">
       </div>` : ``}
     </form>
     ${gameStats(currentAnswers)}
@@ -78,7 +92,7 @@ export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => 
       gameInput.addEventListener(`click`, () => {
         if (allAnswered(allQuestions)) {
           let newAnswer = {
-            "answer": ((question1.find((it) => it.checked).value === currentQuestion.correct) && (question2.find((it) => it.checked).value === currentQuestion.correct2)),
+            "answer": ((question1.find((it) => it.checked).value === currentQuestion.answers[0].correct) && (question2.find((it) => it.checked).value === currentQuestion.answers[1].correct)),
             "time": 15
           };
           answeredQuestion(newAnswer);
@@ -91,13 +105,13 @@ export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => 
         let newAnswer;
         if (currentQuestion.type === 2) {
           newAnswer = {
-            "answer": (gameInput.value === currentQuestion.correct),
+            "answer": (gameInput.value === currentQuestion.answers[0].correct),
             "time": 15
           };
         } else {
           const selectedImg = gameInput.querySelector(`img`);
           newAnswer = {
-            "answer": (selectedImg.getAttribute(`alt`).indexOf(String(currentQuestion.correct)) !== -1),
+            "answer": (selectedImg.getAttribute(`alt`).indexOf(String(currentQuestion.answers.findIndex((it) => it.correct) + 1)) !== -1),
             "time": 15
           };
         }

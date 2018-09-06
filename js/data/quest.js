@@ -1,94 +1,145 @@
 export const INITIAL_GAME = Object.freeze({
   level: 0,
   lives: 3,
-  answers: [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
-  ]
+  answers: []
 });
 
 export const TEST_QUESTIONS = [
   {
     "type": 1,
     "task": `Угадайте для каждого изображения фото или рисунок?`,
-    "answer": `http://placehold.it/468x458`,
-    "correct": `photo`,
-    "answer2": `http://placehold.it/468x458`,
-    "correct2": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `photo`,
+      },
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `paint`
+      },
+    ]
   },
   {
     "type": 2,
     "task": `Угадай, фото или рисунок?`,
-    "answer": `http://placehold.it/705x455`,
-    "correct": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/705x455`,
+        "correct": `paint`
+      },
+    ]
   },
   {
     "type": 3,
     "task": `Найдите рисунок среди изображений`,
-    "answer": `http://placehold.it/304x455`,
-    "answer2": `http://placehold.it/304x455`,
-    "answer3": `http://placehold.it/304x455`,
-    "correct": 3
+    "answers": [
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+        "correct": true
+      },
+    ]
   },
   {
     "type": 2,
     "task": `Угадай, фото или рисунок?`,
-    "answer": `http://placehold.it/705x455`,
-    "correct": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/705x455`,
+        "correct": `paint`
+      },
+    ]
   },
   {
     "type": 3,
     "task": `Найдите рисунок среди изображений`,
-    "answer": `http://placehold.it/304x455`,
-    "answer2": `http://placehold.it/304x455`,
-    "answer3": `http://placehold.it/304x455`,
-    "correct": 3
+    "answers": [
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+        "correct": true
+      },
+    ]
   },
   {
     "type": 1,
     "task": `Угадайте для каждого изображения фото или рисунок?`,
-    "answer": `http://placehold.it/468x458`,
-    "correct": `photo`,
-    "answer2": `http://placehold.it/468x458`,
-    "correct2": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `photo`,
+      },
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `paint`
+      },
+    ]
   },
   {
     "type": 3,
     "task": `Найдите рисунок среди изображений`,
-    "answer": `http://placehold.it/304x455`,
-    "answer2": `http://placehold.it/304x455`,
-    "answer3": `http://placehold.it/304x455`,
-    "correct": 3
+    "answers": [
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+        "correct": true
+      },
+    ]
   },
   {
     "type": 2,
     "task": `Угадай, фото или рисунок?`,
-    "answer": `http://placehold.it/705x455`,
-    "correct": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/705x455`,
+        "correct": `paint`
+      },
+    ]
   },
   {
     "type": 3,
     "task": `Найдите рисунок среди изображений`,
-    "answer": `http://placehold.it/304x455`,
-    "answer2": `http://placehold.it/304x455`,
-    "answer3": `http://placehold.it/304x455`,
-    "correct": 3
+    "answers": [
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+      },
+      {
+        "answer": `http://placehold.it/304x455`,
+        "correct": true
+      },
+    ]
   },
   {
     "type": 1,
     "task": `Угадайте для каждого изображения фото или рисунок?`,
-    "answer": `http://placehold.it/468x458`,
-    "correct": `photo`,
-    "answer2": `http://placehold.it/468x458`,
-    "correct2": `paint`
+    "answers": [
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `photo`,
+      },
+      {
+        "answer": `http://placehold.it/468x458`,
+        "correct": `paint`
+      },
+    ]
   },
 ];
 
@@ -116,11 +167,7 @@ export const TEST_ANSWERS_2 = [
   {
     "answer": false,
     "time": 28
-  },
-  {},
-  {},
-  {},
-  {}
+  }
 ];
 
 export const TEST_ANSWERS_3 = [
@@ -167,11 +214,11 @@ export const TEST_ANSWERS_3 = [
 ];
 
 export const TEST_RESULT_3 = {
-  "base": 800,
-  "speedBonus": 2,
-  "livesBonus": 1,
-  "slothFine": 3,
-  "total": 800,
+  base: 800,
+  speedBonus: 2,
+  livesBonus: 1,
+  slothFine: 3,
+  total: 800,
 };
 
 export const changeLevel = (game, level) => {
@@ -227,10 +274,10 @@ export const changeAnswers = (game, answer, time) => {
   }
 
   const answers = Array.from(game.answers);
-  answers[game.level - 1] = {
+  answers.push({
     answer,
     time,
-  };
+  });
 
   const newGame = Object.assign({}, game, {
     answers
@@ -251,7 +298,7 @@ export const scoring = (allAnswers, lives) => {
   if (lives > 3) {
     throw new Error(`Lives should not be more than 3`);
   }
-  if (allAnswers.find((it) => (Object.keys(it).length === 0))) {
+  if (allAnswers.length < 10) {
     return -1;
   }
   let base = 0;
@@ -305,10 +352,10 @@ export const scoring = (allAnswers, lives) => {
   livesBonus = lives;
   score += lives * 50;
   return {
-    "base": base,
-    "speedBonus": speedBonus,
-    "livesBonus": livesBonus,
-    "slothFine": slothFine,
-    "total": score,
+    base,
+    speedBonus,
+    livesBonus,
+    slothFine,
+    total: score,
   };
 };
