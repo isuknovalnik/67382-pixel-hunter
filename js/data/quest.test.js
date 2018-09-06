@@ -1,9 +1,11 @@
 import {assert} from 'chai';
-import {INITIAL_GAME} from './quest.js';
-import {changeLevel} from './quest.js';
-import {changeLives} from './quest.js';
-import {changeAnswers} from './quest.js';
-import {scoring} from './quest.js';
+import {
+  INITIAL_GAME,
+  changeLevel,
+  changeLives,
+  changeAnswers,
+  scoring
+} from './quest.js';
 
 const TEST_ANSWERS = [
   {
@@ -542,7 +544,7 @@ const TEST_ANSWERS_0 = [
 ];
 
 const TEST_GAME = Object.freeze({
-  level: 5,
+  level: 6,
   lives: 3,
   answers: TEST_ANSWERS_PART
 });
@@ -632,10 +634,10 @@ suite(`Check scoring`, () => {
   });
 
   test(`scoring works correctly`, () => {
-    assert.equal(scoring(TEST_ANSWERS, 1), 800);
-    assert.equal(scoring(TEST_ANSWERS_2, 2), 1000);
-    assert.equal(scoring(TEST_ANSWERS_3, 3), 1000);
-    assert.equal(scoring(TEST_ANSWERS_0, 0), 600);
+    assert.equal(scoring(TEST_ANSWERS, 1).total, 800);
+    assert.equal(scoring(TEST_ANSWERS_2, 2).total, 1000);
+    assert.equal(scoring(TEST_ANSWERS_3, 3).total, 1000);
+    assert.equal(scoring(TEST_ANSWERS_0, 0).total, 600);
   });
 
 });
