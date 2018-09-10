@@ -10,7 +10,6 @@ import {
   TEST_RESULT_3
 } from './data/quest.js';
 import {newGameScreen} from './game-screen.js';
-import selectScreen from './select-screen.js';
 import {showStats} from './stats.js';
 
 let currentGame;
@@ -22,7 +21,7 @@ export const resetGame = () => {
 export const startPlaying = () => {
   currentGame = Object.assign({}, INITIAL_GAME);
   currentGame = changeLevel(currentGame, currentGame.level + 1);
-  selectScreen(newGameScreen(TEST_QUESTIONS[0], currentGame.answers, currentGame.lives));
+  newGameScreen(TEST_QUESTIONS[0], currentGame.answers, currentGame.lives);
 };
 
 export const answeredQuestion = (newAnswer) => {
@@ -32,14 +31,14 @@ export const answeredQuestion = (newAnswer) => {
     if (newLives >= 0) {
       currentGame = changeLives(currentGame, newLives);
     } else {
-      selectScreen(showStats(currentGame.answers, `FAIL`, TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3));
+      showStats(currentGame.answers, `FAIL`, TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3);
       return;
     }
   }
   if (currentGame.level < 10) {
     currentGame = changeLevel(currentGame, currentGame.level + 1);
-    selectScreen(newGameScreen(TEST_QUESTIONS[currentGame.level - 1], currentGame.answers, currentGame.lives));
+    newGameScreen(TEST_QUESTIONS[currentGame.level - 1], currentGame.answers, currentGame.lives);
   } else {
-    selectScreen(showStats(currentGame.answers, scoring(currentGame.answers, currentGame.lives), TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3));
+    showStats(currentGame.answers, scoring(currentGame.answers, currentGame.lives), TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3);
   }
 };

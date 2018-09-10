@@ -1,8 +1,8 @@
 const mainElement = document.querySelector(`#main`);
 
-const selectScreen = (element) => {
+const selectScreen = (...elements) => {
   mainElement.innerHTML = ``;
-  mainElement.appendChild(element);
+  elements.forEach((it) => mainElement.appendChild(it));
 };
 
 export default selectScreen;
