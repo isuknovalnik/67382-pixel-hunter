@@ -1,10 +1,10 @@
 import {selectScreen} from './select-screen.js';
-import IntroScreen from './intro.js';
-import GreetingScreen from './greeting.js';
-import RulesScreen from './rules.js';
-import GameScreen from './game-screen.js';
-import GameModel from './game-model.js';
-import StatsScreen from './stats.js';
+import IntroScreen from './game/intro.js';
+import GreetingScreen from './game/greeting.js';
+import RulesScreen from './game/rules.js';
+import GameScreen from './game/game-screen.js';
+import GameModel from './data/game-model.js';
+import StatsScreen from './game/stats.js';
 
 export default class Application {
 

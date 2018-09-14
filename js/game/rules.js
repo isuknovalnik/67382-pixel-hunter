@@ -1,6 +1,6 @@
-import Application from './application.js';
-import {HeaderView} from './header-view';
-import {RulesView} from './rules-view';
+import Application from '../application.js';
+import {HeaderView} from '../view/header-view';
+import {RulesView} from '../view/rules-view';
 
 export default class RulesScreen {
   constructor() {

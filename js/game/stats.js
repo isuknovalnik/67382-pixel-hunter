@@ -1,6 +1,6 @@
-import Application from './application.js';
-import {HeaderView} from './header-view';
-import {StatsView} from './stats-view';
+import Application from '../application.js';
+import {HeaderView} from '../view/header-view';
+import {StatsView} from '../view/stats-view';
 
 export default class StatsScreen {
   constructor(resultAnswers, result, resultAnswers2, result2, resultAnswers3, result3) {

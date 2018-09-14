@@ -1,5 +1,5 @@
 import {AbstractView} from "./abstract-view";
-import {gameStats} from './game-stats.js';
+import {gameStats} from '../game-stats.js';
 
 export class GameScreenView extends AbstractView {
   constructor(currentQuestion, currentAnswers) {

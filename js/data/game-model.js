@@ -8,7 +8,7 @@ import {
   TEST_ANSWERS_2,
   TEST_ANSWERS_3,
   TEST_RESULT_3
-} from './data/quest.js';
+} from './quest.js';
 
 export default class GameModel {
   constructor() {

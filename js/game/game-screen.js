@@ -1,7 +1,7 @@
-import Application from './application.js';
-import {HeaderView} from './header-view';
-import {GameScreenView} from './game-screen-view';
-import {selectScreen, replaceHeader} from './select-screen.js';
+import Application from '../application.js';
+import {HeaderView} from '../view/header-view';
+import {GameScreenView} from '../view/game-screen-view';
+import {selectScreen, replaceHeader} from '../select-screen.js';
 
 export default class GameScreen {
   constructor(model) {

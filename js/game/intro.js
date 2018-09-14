@@ -1,5 +1,5 @@
-import Application from './application.js';
-import {IntroView} from './intro-view';
+import Application from '../application.js';
+import {IntroView} from '../view/intro-view';
 
 export default class IntroScreen {
   constructor() {
