@@ -1,7 +1,6 @@
 import Application from './application.js';
 import {HeaderView} from './header-view';
 import {GameScreenView} from './game-screen-view';
-import backToGreeting from './back.js';
 import {selectScreen, replaceHeader} from './select-screen.js';
 
 export default class GameScreen {
@@ -12,8 +11,13 @@ export default class GameScreen {
 
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
-    this.gameHeader.onBack = backToGreeting;
+    this.gameHeader.onBack = this.backToGreeting;
     this.createGameHandlers();
+  }
+
+  backToGreeting() {
+    Application.resetGame();
+    Application.showGreeting();
   }
 
   get element() {
@@ -117,7 +121,7 @@ export default class GameScreen {
     this.model.updateLevel(this.model.state.level + 1);
     this.currentQuestion = this.model.question[this.model.state.level - 1];
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
-    this.gameHeader.onBack = backToGreeting;
+    this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
     this.createGameHandlers();
     selectScreen(this.gameHeader.element, this.currentGameScreen.element);
@@ -127,6 +131,6 @@ export default class GameScreen {
     const header = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     replaceHeader(header.element, this.gameHeader.element);
     this.gameHeader = header;
-    this.gameHeader.onBack = backToGreeting;
+    this.gameHeader.onBack = this.backToGreeting;
   }
 }

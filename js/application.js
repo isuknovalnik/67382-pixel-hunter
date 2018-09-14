@@ -32,7 +32,7 @@ export default class Application {
 
   static resetGame() {
     if (this.model !== undefined) {
-      model.resetGame();
+      this.model.resetGame();
     }
   }
 
