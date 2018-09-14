@@ -1,11 +1,15 @@
+import Application from './application.js';
 import {GreetingView} from './greeting-view';
-import selectScreen from './select-screen.js';
-import rules from './rules.js';
 
-export default () => {
-  const gameGreeting = new GreetingView();
-  gameGreeting.onContinue = () => {
-    rules();
-  };
-  selectScreen(gameGreeting.element);
-};
+export default class GreetingScreen {
+  constructor() {
+    this.gameGreeting = new GreetingView();
+    this.gameGreeting.onContinue = () => {
+      Application.showRules();
+    };
+  }
+
+  get element() {
+    return this.gameGreeting.element;
+  }
+}

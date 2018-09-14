@@ -1,18 +1,22 @@
+import Application from './application.js';
 import {HeaderView} from './header-view';
 import {RulesView} from './rules-view';
-import selectScreen from './select-screen.js';
-import {startPlaying} from './playing.js';
 import backToGreeting from './back.js';
 
-export default () => {
-  const rulesHeader = new HeaderView(false);
-  const gameRules = new RulesView();
-  rulesHeader.onBack = backToGreeting;
-  gameRules.onNameInput = () => {
-    gameRules.rulesButton.disabled = !gameRules.playerNameInput.value;
-  };
-  gameRules.onContinue = () => {
-    startPlaying();
-  };
-  selectScreen(rulesHeader.element, gameRules.element);
-};
+export default class RulesScreen {
+  constructor() {
+    this.rulesHeader = new HeaderView(false);
+    this.gameRules = new RulesView();
+    this.rulesHeader.onBack = backToGreeting;
+    this.gameRules.onNameInput = () => {
+      this.gameRules.rulesButton.disabled = !this.gameRules.playerNameInput.value;
+    };
+    this.gameRules.onContinue = () => {
+      Application.showGame();
+    };
+  }
+
+  get element() {
+    return [this.rulesHeader.element, this.gameRules.element];
+  }
+}

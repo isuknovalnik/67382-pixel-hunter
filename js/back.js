@@ -1,9 +1,8 @@
-import greeting from './greeting.js';
-import {resetGame} from './playing.js';
+import Application from './application.js';
 
 const backToGreeting = () => {
-  resetGame();
-  greeting();
+  Application.resetGame();
+  Application.showGreeting();
 };
 
 export default backToGreeting;

@@ -1,8 +1,10 @@
 const mainElement = document.querySelector(`#main`);
 
-const selectScreen = (...elements) => {
+export const selectScreen = (...elements) => {
   mainElement.innerHTML = ``;
   elements.forEach((it) => mainElement.appendChild(it));
 };
 
-export default selectScreen;
+export const replaceHeader = (newHeader, oldHeader) => {
+  mainElement.replaceChild(newHeader, oldHeader);
+};

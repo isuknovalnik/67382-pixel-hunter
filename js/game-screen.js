@@ -1,62 +1,132 @@
+import Application from './application.js';
 import {HeaderView} from './header-view';
 import {GameScreenView} from './game-screen-view';
-import selectScreen from './select-screen.js';
-import {answeredQuestion} from './playing.js';
 import backToGreeting from './back.js';
+import {selectScreen, replaceHeader} from './select-screen.js';
 
-export const newGameScreen = (currentQuestion, currentAnswers, currentLives) => {
-  const gameHeader = new HeaderView(true, {timer: 15, lives: currentLives});
-  const gameScreen = new GameScreenView(currentQuestion, currentAnswers);
-  gameHeader.onBack = backToGreeting;
+export default class GameScreen {
+  constructor(model) {
+    this.model = model;
+    this.currentQuestion = this.model.question[0];
+    this._timer = null;
 
-  if (currentQuestion.type === 1) {
-    const question1 = [];
-    const question2 = [];
-
-    gameScreen.gameInputs.forEach((it) => {
-      if (it.name === `question1`) {
-        question1.push(it);
-      } else if (it.name === `question2`) {
-        question2.push(it);
-      }
-    });
-
-    const allQuestions = [question1, question2];
-
-    const isAnswered = (question) => {
-      return question.some((it) => it.checked);
-    };
-
-    const allAnswered = (questions) => {
-      return questions.every((it) => isAnswered(it));
-    };
-
-    gameScreen.onChecked = () => {
-      if (allAnswered(allQuestions)) {
-        let newAnswer = {
-          "answer": ((question1.find((it) => it.checked).value === currentQuestion.answers[0].correct) && (question2.find((it) => it.checked).value === currentQuestion.answers[1].correct)),
-          "time": 15
-        };
-        answeredQuestion(newAnswer);
-      }
-    };
-  } else {
-    gameScreen.onChecked = (_inputElem) => {
-      let newAnswer;
-      if (currentQuestion.type === 2) {
-        newAnswer = {
-          "answer": (_inputElem.value === currentQuestion.answers[0].correct),
-          "time": 15
-        };
-      } else {
-        const selectedImg = _inputElem.querySelector(`img`);
-        newAnswer = {
-          "answer": (selectedImg.getAttribute(`alt`).indexOf(String(currentQuestion.answers.findIndex((it) => it.correct) + 1)) !== -1),
-          "time": 15
-        };
-      }
-      answeredQuestion(newAnswer);
-    };
+    this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
+    this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
+    this.gameHeader.onBack = backToGreeting;
+    this.createGameHandlers();
   }
-  selectScreen(gameHeader.element, gameScreen.element);
-};
+
+  get element() {
+    return [this.gameHeader.element, this.currentGameScreen.element];
+  }
+
+  startTimer() {
+    this._timer = setTimeout(() => {
+      this.model.tick();
+      if (this.model.state.time >= 30) {
+        this.stopTimer();
+        this.answeredQuestion(false);
+      }
+      this.updateHeader();
+      this.startTimer();
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearTimeout(this._timer);
+  }
+
+  startPlaying() {
+    this.changeGameScreen();
+    this.startTimer();
+  }
+
+  createGameHandlers() {
+    if (this.currentQuestion.type === 1) {
+      const question1 = [];
+      const question2 = [];
+
+      this.currentGameScreen.gameInputs.forEach((it) => {
+        if (it.name === `question1`) {
+          question1.push(it);
+        } else if (it.name === `question2`) {
+          question2.push(it);
+        }
+      });
+
+      const allQuestions = [question1, question2];
+
+      const isAnswered = (question) => {
+        return question.some((it) => it.checked);
+      };
+
+      const allAnswered = (questions) => {
+        return questions.every((it) => isAnswered(it));
+      };
+
+      this.currentGameScreen.onChecked = () => {
+        if (allAnswered(allQuestions)) {
+          this.stopTimer();
+          let newAnswer = {
+            "answer": ((question1.find((it) => it.checked).value === this.currentQuestion.answers[0].correct) && (question2.find((it) => it.checked).value === this.currentQuestion.answers[1].correct)),
+            "time": this.model.state.time
+          };
+          this.answeredQuestion(newAnswer);
+        }
+      };
+    } else {
+      this.currentGameScreen.onChecked = (_inputElem) => {
+        this.stopTimer();
+        let newAnswer;
+        if (this.currentQuestion.type === 2) {
+          newAnswer = {
+            "answer": (_inputElem.value === this.currentQuestion.answers[0].correct),
+            "time": this.model.state.time
+          };
+        } else {
+          const selectedImg = _inputElem.querySelector(`img`);
+          newAnswer = {
+            "answer": (selectedImg.getAttribute(`alt`).indexOf(String(this.currentQuestion.answers.findIndex((it) => it.correct) + 1)) !== -1),
+            "time": this.model.state.time
+          };
+        }
+        this.answeredQuestion(newAnswer);
+      };
+    }
+  }
+
+  answeredQuestion(newAnswer) {
+    this.model.addAnswer(newAnswer.answer, newAnswer.time);
+    if (!newAnswer.answer) {
+      const newLives = this.model.state.lives - 1;
+      if (newLives >= 0) {
+        this.model.updateLives(newLives);
+      } else {
+        Application.showStats(this.model.results(false));
+        return;
+      }
+    }
+    if (this.model.state.level < 10) {
+      this.startPlaying();
+    } else {
+      Application.showStats(this.model.results(true));
+    }
+  }
+
+  changeGameScreen() {
+    this.model.updateLevel(this.model.state.level + 1);
+    this.currentQuestion = this.model.question[this.model.state.level - 1];
+    this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
+    this.gameHeader.onBack = backToGreeting;
+    this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
+    this.createGameHandlers();
+    selectScreen(this.gameHeader.element, this.currentGameScreen.element);
+  }
+
+  updateHeader() {
+    const header = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
+    replaceHeader(header.element, this.gameHeader.element);
+    this.gameHeader = header;
+    this.gameHeader.onBack = backToGreeting;
+  }
+}
