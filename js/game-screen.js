@@ -6,13 +6,13 @@ import {selectScreen, replaceHeader} from './select-screen.js';
 export default class GameScreen {
   constructor(model) {
     this.model = model;
-    this.currentQuestion = this.model.question(0);
+    this.currentQuestion = this.model.question;
     this._timer = null;
 
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
     this.gameHeader.onBack = this.backToGreeting;
-    this.createGameHandlers();
+    this.createGameHandlers.bind(this);
   }
 
   backToGreeting() {
@@ -118,12 +118,12 @@ export default class GameScreen {
   }
 
   changeGameScreen() {
+    this.currentQuestion = this.model.question;
     this.model.updateLevel(this.model.state.level + 1);
-    this.currentQuestion = this.model.question(this.model.state.level - 1);
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
-    this.createGameHandlers();
+    this.createGameHandlers.bind(this);
     selectScreen(this.gameHeader.element, this.currentGameScreen.element);
   }
 

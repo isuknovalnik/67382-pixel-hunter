@@ -19,8 +19,8 @@ export default class GameModel {
     return Object.freeze(this._state);
   }
 
-  question(n) {
-    return TEST_QUESTIONS[n];
+  get question() {
+    return TEST_QUESTIONS[this._state.level];
   }
 
   results(isWin) {
