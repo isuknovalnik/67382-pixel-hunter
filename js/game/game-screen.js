@@ -29,9 +29,10 @@ export default class GameScreen {
       if (this.model.state.time >= 30) {
         this.stopTimer();
         this.answeredQuestion({"answer": false, "time": 30});
+      } else {
+        this.updateHeader();
+        this.startTimer();
       }
-      this.updateHeader();
-      this.startTimer();
     }, 1000);
   }
 
@@ -119,6 +120,7 @@ export default class GameScreen {
   changeGameScreen() {
     this.currentQuestion = this.model.question;
     this.model.updateLevel(this.model.state.level + 1);
+    this.model.resetTime();
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);

@@ -32,19 +32,25 @@ export default class GameModel {
   }
 
   addAnswer(answer, time) {
-    changeAnswers(this._state, answer, time);
+    this._state = changeAnswers(this._state, answer, ((time > 0) ? time : 1));
   }
 
   updateLives(lives) {
-    changeLives(this._state, lives);
+    this._state = changeLives(this._state, lives);
   }
 
   updateLevel(level) {
-    changeLevel(this._state, level);
+    this._state = changeLevel(this._state, level);
   }
 
   resetGame() {
     this._state = Object.assign({}, INITIAL_GAME);
+  }
+
+  resetTime() {
+    this._state = Object.assign({}, this._state, {
+      time: 0
+    });
   }
 
   tick() {

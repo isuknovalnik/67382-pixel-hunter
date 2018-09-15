@@ -32,6 +32,6 @@ export default class Application {
 
   static showStats(stats) {
     const statistics = new StatsScreen(...stats);
-    selectScreen(statistics.element);
+    selectScreen(...statistics.element);
   }
 }
