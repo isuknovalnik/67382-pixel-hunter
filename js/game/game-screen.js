@@ -16,7 +16,6 @@ export default class GameScreen {
   }
 
   backToGreeting() {
-    Application.resetGame();
     Application.showGreeting();
   }
 

@@ -30,12 +30,6 @@ export default class Application {
     gameScreen.startPlaying();
   }
 
-  static resetGame() {
-    if (this.model !== undefined) {
-      this.model.resetGame();
-    }
-  }
-
   static showStats(stats) {
     const statistics = new StatsScreen(...stats);
     selectScreen(statistics.element);
