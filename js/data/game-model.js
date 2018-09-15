@@ -4,13 +4,11 @@ import {
   changeAnswers,
   changeLives,
   scoring,
-  TEST_ANSWERS_2,
-  TEST_ANSWERS_3,
-  TEST_RESULT_3
 } from './quest.js';
 
 export default class GameModel {
-  constructor(questions) {
+  constructor(playerName, questions) {
+    this.playerName = playerName;
     this.questions = questions;
     this.resetGame();
   }
@@ -25,9 +23,9 @@ export default class GameModel {
 
   results(isWin) {
     if (isWin) {
-      return [this._state.answers, scoring(this._state.answers, this._state.lives), TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3];
+      return [this._state.answers, scoring(this._state.answers, this._state.lives)];
     } else {
-      return [this._state.answers, `FAIL`, TEST_ANSWERS_2, `FAIL`, TEST_ANSWERS_3, TEST_RESULT_3];
+      return [this._state.answers, `FAIL`];
     }
   }
 

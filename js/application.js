@@ -7,8 +7,10 @@ import GameModel from './data/game-model.js';
 import StatsScreen from './game/stats.js';
 import {ErrorView} from './view/error-view.js';
 import {adaptServerData} from './data/data-adapter.js';
+import Loader from './loader.js';
+import {scoring} from './data/quest.js';
 
-const checkStatus = (response) => {
+export const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
@@ -45,16 +47,27 @@ export default class Application {
     selectScreen(...rules.element);
   }
 
-  static showGame() {
-    const model = new GameModel(gameData);
+  static showGame(playerName) {
+    const model = new GameModel(playerName, gameData);
     const gameScreen = new GameScreen(model);
     selectScreen(...gameScreen.element);
     gameScreen.startPlaying();
   }
 
-  static showStats(stats) {
-    const statistics = new StatsScreen(...stats);
-    selectScreen(...statistics.element);
+  static showStats(model, isWin) {
+    const playerName = model.playerName;
+    Loader.saveResults(model.state, playerName).
+      then(() => Loader.loadResults(playerName)).
+      then((data) => {
+        let statistics;
+        if (isWin) {
+          statistics = new StatsScreen(data[data.length - 1].answers, scoring(data[data.length - 1].answers, data[data.length - 1].lives));
+        } else {
+          statistics = new StatsScreen(data[data.length - 1].answers, `FAIL`);
+        }
+        selectScreen(...statistics.element);
+      }).
+      catch(Application.showError);
   }
 
   static showError(error) {
