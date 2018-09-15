@@ -12,7 +12,7 @@ export default class GameScreen {
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
     this.gameHeader.onBack = this.backToGreeting;
-    this.createGameHandlers.bind(this);
+    this.createGameHandlers = this.createGameHandlers.bind(this);
   }
 
   backToGreeting() {
@@ -28,7 +28,7 @@ export default class GameScreen {
       this.model.tick();
       if (this.model.state.time >= 30) {
         this.stopTimer();
-        this.answeredQuestion(false);
+        this.answeredQuestion({"answer": false, "time": 30});
       }
       this.updateHeader();
       this.startTimer();
@@ -78,16 +78,16 @@ export default class GameScreen {
         }
       };
     } else {
-      this.currentGameScreen.onChecked = (_inputElem) => {
+      this.currentGameScreen.onChecked = (inputElem) => {
         this.stopTimer();
         let newAnswer;
         if (this.currentQuestion.type === 2) {
           newAnswer = {
-            "answer": (_inputElem.value === this.currentQuestion.answers[0].correct),
+            "answer": (inputElem.value === this.currentQuestion.answers[0].correct),
             "time": this.model.state.time
           };
         } else {
-          const selectedImg = _inputElem.querySelector(`img`);
+          const selectedImg = inputElem.querySelector(`img`);
           newAnswer = {
             "answer": (selectedImg.getAttribute(`alt`).indexOf(String(this.currentQuestion.answers.findIndex((it) => it.correct) + 1)) !== -1),
             "time": this.model.state.time
@@ -122,7 +122,7 @@ export default class GameScreen {
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
-    this.createGameHandlers.bind(this);
+    this.createGameHandlers = this.createGameHandlers.bind(this);
     this.createGameHandlers();
     selectScreen(this.gameHeader.element, this.currentGameScreen.element);
   }
