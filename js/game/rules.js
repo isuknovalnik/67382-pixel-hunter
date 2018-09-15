@@ -2,6 +2,7 @@ import Application from '../application.js';
 import {HeaderView} from '../view/header-view';
 import {RulesView} from '../view/rules-view';
 
+let playerName;
 export default class RulesScreen {
   constructor() {
     this.rulesHeader = new HeaderView(false);
@@ -13,7 +14,8 @@ export default class RulesScreen {
       this.gameRules.rulesButton.disabled = !this.gameRules.playerNameInput.value;
     };
     this.gameRules.onContinue = () => {
-      Application.showGame();
+      playerName = this.gameRules.playerNameInput.value;
+      Application.showGame(playerName);
     };
   }
 
