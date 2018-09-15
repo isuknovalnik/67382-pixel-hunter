@@ -1,6 +1,5 @@
 import {
   INITIAL_GAME,
-  TEST_QUESTIONS,
   changeLevel,
   changeAnswers,
   changeLives,
@@ -11,7 +10,8 @@ import {
 } from './quest.js';
 
 export default class GameModel {
-  constructor() {
+  constructor(questions) {
+    this.questions = questions;
     this.resetGame();
   }
 
@@ -20,7 +20,7 @@ export default class GameModel {
   }
 
   get question() {
-    return TEST_QUESTIONS[this._state.level];
+    return this.questions[this._state.level];
   }
 
   results(isWin) {
