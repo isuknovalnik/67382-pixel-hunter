@@ -123,6 +123,7 @@ export default class GameScreen {
     this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
     this.createGameHandlers.bind(this);
+    this.createGameHandlers();
     selectScreen(this.gameHeader.element, this.currentGameScreen.element);
   }
 
