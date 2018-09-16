@@ -8,7 +8,6 @@ import StatsScreen from './game/stats.js';
 import {ErrorView} from './view/error-view.js';
 import {adaptServerData} from './data/data-adapter.js';
 import Loader from './loader.js';
-import {scoring} from './data/quest.js';
 
 export const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
