@@ -60,7 +60,7 @@ export default class Application {
       then(() => Loader.loadResults(playerName)).
       then((data) => {
         let statistics;
-        statistics = new StatsScreen(data[data.length - 1].answers, scoring(data[data.length - 1].answers, data[data.length - 1].lives));
+        statistics = new StatsScreen(data);
         selectScreen(...statistics.element);
       }).
       catch(Application.showError);
