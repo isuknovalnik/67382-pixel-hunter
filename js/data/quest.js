@@ -82,8 +82,17 @@ export const scoring = (allAnswers, lives) => {
   if (lives > 3) {
     throw new Error(`Lives should not be more than 3`);
   }
-  if (allAnswers.length < 10) {
-    return -1;
+  let errors = 0;
+  const errorsCount = allAnswers.reduce((counter, currentAnswer) => (!currentAnswer.answer) ? counter + 1 : counter, errors);
+  if (errorsCount === 4) {
+    return `FAIL`;
+  }
+  if (errorsCount > 4) {
+    throw new Error(`Errors number should not be more than 4`);
+  } else {
+    if (allAnswers.length < 10) {
+      return -1;
+    }
   }
   let base = 0;
   let speedBonus = 0;
@@ -125,9 +134,6 @@ export const scoring = (allAnswers, lives) => {
       }
     } else {
       checkLives -= 1;
-      if (checkLives < 0) {
-        throw new Error(`Errors number should not be more than initial lives number`);
-      }
     }
   });
   if (lives !== checkLives) {

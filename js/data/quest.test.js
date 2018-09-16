@@ -73,6 +73,72 @@ const TEST_ANSWERS_PART = [
   }
 ];
 
+const TEST_PART_FAIL = [
+  {
+    "answer": false,
+    "time": 15
+  },
+  {
+    "answer": false,
+    "time": 5
+  },
+  {
+    "answer": true,
+    "time": 25
+  },
+  {
+    "answer": false,
+    "time": 17
+  },
+  {
+    "answer": false,
+    "time": 2
+  }
+];
+
+const TEST_FULL_FAIL = [
+  {
+    "answer": false,
+    "time": 15
+  },
+  {
+    "answer": true,
+    "time": 5
+  },
+  {
+    "answer": false,
+    "time": 25
+  },
+  {
+    "answer": true,
+    "time": 17
+  },
+  {
+    "answer": true,
+    "time": 2
+  },
+  {
+    "answer": true,
+    "time": 28
+  },
+  {
+    "answer": true,
+    "time": 14
+  },
+  {
+    "answer": false,
+    "time": 17
+  },
+  {
+    "answer": true,
+    "time": 3
+  },
+  {
+    "answer": false,
+    "time": 21
+  }
+];
+
 const TEST_ANSWER_NOT_OBJECT = [
   `meow`,
   {
@@ -625,11 +691,11 @@ suite(`Check scoring`, () => {
     assert.throws(() => scoring(TEST_TIME_NOT_NUMBER, 1), /Time value should be of type number/);
     assert.throws(() => scoring(TEST_NEGATIVE_TIME, 1), /Time should not be negative or zero value/);
     assert.throws(() => scoring(TEST_TOO_MUCH_TIME, 1), /Time should not be more than 30 seconds/);
-    assert.throws(() => scoring(TEST_TOO_MUCH_ERRORS, 1), /Errors number should not be more than initial lives number/);
+    assert.throws(() => scoring(TEST_TOO_MUCH_ERRORS, 1), /Errors number should not be more than 4/);
     assert.throws(() => scoring(TEST_ANSWERS, 2), /Lives number should be equal to 3 minus errors number/);
   });
 
-  test(`all questions answered`, () => {
+  test(`all questions answered and not fail`, () => {
     assert.equal(scoring(TEST_ANSWERS_PART, 2), -1);
   });
 
@@ -638,6 +704,8 @@ suite(`Check scoring`, () => {
     assert.equal(scoring(TEST_ANSWERS_2, 2).total, 1000);
     assert.equal(scoring(TEST_ANSWERS_3, 3).total, 1000);
     assert.equal(scoring(TEST_ANSWERS_0, 0).total, 600);
+    assert.equal(scoring(TEST_PART_FAIL, 0), `FAIL`);
+    assert.equal(scoring(TEST_FULL_FAIL, 0), `FAIL`);
   });
 
 });

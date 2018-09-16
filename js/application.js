@@ -54,17 +54,13 @@ export default class Application {
     gameScreen.startPlaying();
   }
 
-  static showStats(model, isWin) {
+  static showStats(model) {
     const playerName = model.playerName;
     Loader.saveResults(model.state, playerName).
       then(() => Loader.loadResults(playerName)).
       then((data) => {
         let statistics;
-        if (isWin) {
-          statistics = new StatsScreen(data[data.length - 1].answers, scoring(data[data.length - 1].answers, data[data.length - 1].lives));
-        } else {
-          statistics = new StatsScreen(data[data.length - 1].answers, `FAIL`);
-        }
+        statistics = new StatsScreen(data[data.length - 1].answers, scoring(data[data.length - 1].answers, data[data.length - 1].lives));
         selectScreen(...statistics.element);
       }).
       catch(Application.showError);
