@@ -3,9 +3,9 @@ import {HeaderView} from '../view/header-view';
 import {StatsView} from '../view/stats-view';
 
 export default class StatsScreen {
-  constructor(resultAnswers, result) {
+  constructor(results) {
     this.statsHeader = new HeaderView(false);
-    this.gameStatsScreen = new StatsView(resultAnswers, result);
+    this.gameStatsScreen = new StatsView(results);
     this.statsHeader.onBack = () => {
       Application.showGreeting();
     };

@@ -3,7 +3,6 @@ import {
   changeLevel,
   changeAnswers,
   changeLives,
-  scoring,
 } from './quest.js';
 
 export default class GameModel {
@@ -19,14 +18,6 @@ export default class GameModel {
 
   get question() {
     return this.questions[this._state.level];
-  }
-
-  results(isWin) {
-    if (isWin) {
-      return [this._state.answers, scoring(this._state.answers, this._state.lives)];
-    } else {
-      return [this._state.answers, `FAIL`];
-    }
   }
 
   addAnswer(answer, time) {

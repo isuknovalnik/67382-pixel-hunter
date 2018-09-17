@@ -8,7 +8,6 @@ import StatsScreen from './game/stats.js';
 import {ErrorView} from './view/error-view.js';
 import {adaptServerData} from './data/data-adapter.js';
 import Loader from './loader.js';
-import {scoring} from './data/quest.js';
 
 export const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
@@ -54,17 +53,13 @@ export default class Application {
     gameScreen.startPlaying();
   }
 
-  static showStats(model, isWin) {
+  static showStats(model) {
     const playerName = model.playerName;
     Loader.saveResults(model.state, playerName).
       then(() => Loader.loadResults(playerName)).
       then((data) => {
         let statistics;
-        if (isWin) {
-          statistics = new StatsScreen(data[data.length - 1].answers, scoring(data[data.length - 1].answers, data[data.length - 1].lives));
-        } else {
-          statistics = new StatsScreen(data[data.length - 1].answers, `FAIL`);
-        }
+        statistics = new StatsScreen(data);
         selectScreen(...statistics.element);
       }).
       catch(Application.showError);

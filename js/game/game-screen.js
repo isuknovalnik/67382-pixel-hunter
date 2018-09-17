@@ -106,14 +106,14 @@ export default class GameScreen {
       if (newLives >= 0) {
         this.model.updateLives(newLives);
       } else {
-        Application.showStats(this.model, false);
+        Application.showStats(this.model);
         return;
       }
     }
     if (this.model.state.level < 10) {
       this.startPlaying();
     } else {
-      Application.showStats(this.model, true);
+      Application.showStats(this.model);
     }
   }
 
