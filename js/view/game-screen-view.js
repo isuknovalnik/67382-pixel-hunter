@@ -1,6 +1,8 @@
 import {AbstractView} from "./abstract-view";
 import {gameStats} from '../game-stats.js';
 
+const TYPE3_OPTIONS_SELECTOR = `.game__option`;
+
 export class GameScreenView extends AbstractView {
   constructor(currentQuestion, currentAnswers) {
     super();
@@ -59,22 +61,11 @@ export class GameScreenView extends AbstractView {
   }
 
   get gameInputs() {
-    if (this.currentQuestion.type === 3) {
-      return this.element.querySelectorAll(`.game__option`);
-    } else {
-      return this.element.querySelectorAll(`input`);
-    }
+    return (this.currentQuestion.type === 3) ? this.element.querySelectorAll(TYPE3_OPTIONS_SELECTOR) : this.element.querySelectorAll(`input`);
   }
 
   bind() {
-    let gameInputs;
-    if (this.currentQuestion.type === 3) {
-      gameInputs = this.element.querySelectorAll(`.game__option`);
-    } else {
-      gameInputs = this.element.querySelectorAll(`input`);
-    }
-
-    gameInputs.forEach((it) => {
+    this.gameInputs.forEach((it) => {
       it.addEventListener(`click`, () => {
         this.onChecked(it);
       });

@@ -3,6 +3,9 @@ import {HeaderView} from '../view/header-view';
 import {GameScreenView} from '../view/game-screen-view';
 import {selectScreen, replaceHeader} from '../select-screen.js';
 
+const TYPE1_FIRST_QUESTION_INPUT = `question1`;
+const TYPE1_SECOND_QUESTION_INPUT = `question2`;
+
 export default class GameScreen {
   constructor(model) {
     this.model = model;
@@ -11,11 +14,14 @@ export default class GameScreen {
 
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
+    this.backToGreeting = this.backToGreeting.bind(this);
     this.gameHeader.onBack = this.backToGreeting;
     this.createGameHandlers = this.createGameHandlers.bind(this);
   }
 
   backToGreeting() {
+    this.stopTimer();
+    this.model.resetGame();
     Application.showGreeting();
   }
 
@@ -47,64 +53,64 @@ export default class GameScreen {
 
   createGameHandlers() {
     if (this.currentQuestion.type === 1) {
-      const question1 = [];
-      const question2 = [];
+      const _question1 = [];
+      const _question2 = [];
 
       this.currentGameScreen.gameInputs.forEach((it) => {
-        if (it.name === `question1`) {
-          question1.push(it);
-        } else if (it.name === `question2`) {
-          question2.push(it);
+        if (it.name === TYPE1_FIRST_QUESTION_INPUT) {
+          _question1.push(it);
+        } else if (it.name === TYPE1_SECOND_QUESTION_INPUT) {
+          _question2.push(it);
         }
       });
 
-      const allQuestions = [question1, question2];
+      const _allQuestions = [_question1, _question2];
 
-      const isAnswered = (question) => {
-        return question.some((it) => it.checked);
+      const _isAnswered = (_question) => {
+        return _question.some((it) => it.checked);
       };
 
-      const allAnswered = (questions) => {
-        return questions.every((it) => isAnswered(it));
+      const _allAnswered = (_questions) => {
+        return _questions.every((it) => _isAnswered(it));
       };
 
       this.currentGameScreen.onChecked = () => {
-        if (allAnswered(allQuestions)) {
+        if (_allAnswered(_allQuestions)) {
           this.stopTimer();
-          let newAnswer = {
-            "answer": ((question1.find((it) => it.checked).value === this.currentQuestion.answers[0].correct) && (question2.find((it) => it.checked).value === this.currentQuestion.answers[1].correct)),
+          let _newAnswer = {
+            "answer": ((_question1.find((it) => it.checked).value === this.currentQuestion.answers[0].correct) && (_question2.find((it) => it.checked).value === this.currentQuestion.answers[1].correct)),
             "time": this.model.state.time
           };
-          this.answeredQuestion(newAnswer);
+          this.answeredQuestion(_newAnswer);
         }
       };
     } else {
-      this.currentGameScreen.onChecked = (inputElem) => {
+      this.currentGameScreen.onChecked = (_inputElem) => {
         this.stopTimer();
-        let newAnswer;
+        let _newAnswer;
         if (this.currentQuestion.type === 2) {
-          newAnswer = {
-            "answer": (inputElem.value === this.currentQuestion.answers[0].correct),
+          _newAnswer = {
+            "answer": (_inputElem.value === this.currentQuestion.answers[0].correct),
             "time": this.model.state.time
           };
         } else {
-          const selectedImg = inputElem.querySelector(`img`);
-          newAnswer = {
+          const selectedImg = _inputElem.querySelector(`img`);
+          _newAnswer = {
             "answer": (selectedImg.getAttribute(`alt`).indexOf(String(this.currentQuestion.answers.findIndex((it) => it.correct) + 1)) !== -1),
             "time": this.model.state.time
           };
         }
-        this.answeredQuestion(newAnswer);
+        this.answeredQuestion(_newAnswer);
       };
     }
   }
 
-  answeredQuestion(newAnswer) {
-    this.model.addAnswer(newAnswer.answer, newAnswer.time);
-    if (!newAnswer.answer) {
-      const newLives = this.model.state.lives - 1;
-      if (newLives >= 0) {
-        this.model.updateLives(newLives);
+  answeredQuestion(_newAnswer) {
+    this.model.addAnswer(_newAnswer.answer, _newAnswer.time);
+    if (!_newAnswer.answer) {
+      const _newLives = this.model.state.lives - 1;
+      if (_newLives >= 0) {
+        this.model.updateLives(_newLives);
       } else {
         Application.showStats(this.model);
         return;
@@ -122,6 +128,7 @@ export default class GameScreen {
     this.model.updateLevel(this.model.state.level + 1);
     this.model.resetTime();
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
+    this.backToGreeting = this.backToGreeting.bind(this);
     this.gameHeader.onBack = this.backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
     this.createGameHandlers = this.createGameHandlers.bind(this);
