@@ -28,7 +28,7 @@ export class StatsView extends AbstractView {
             ${gameStats(answers)}
           </td>
           ${(score === LOST_GAME) ? `<td class="result__total"></td>` : `<td class="result__points">× 100</td>
-          <td class="result__total">${currentScore.base}</td>
+          <td class="result__total">${score.base}</td>
         </tr>
         ${(score.speedBonus === 0) ? `` : `<tr>
           <td></td>
