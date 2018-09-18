@@ -14,12 +14,12 @@ export class StatsView extends AbstractView {
   }
 
   get template() {
-    let currentResult = this.allResults.pop();
-    let currentAnswers = currentResult.answers;
-    let currentScore = scoring(currentAnswers, currentResult.lives);
+    let tablesCounter = this.allResults.length;
+    const lastScore = scoring(this.allResults[tablesCounter - 1].answers, this.allResults[tablesCounter - 1].lives);
     const templateStart = `<section class="result">
-      <h2 class="result__title">${(currentScore === LOST_GAME) ? `Вы проиграли` : `Победа!`}</h2>`;
+      <h2 class="result__title">${(lastScore === LOST_GAME) ? `Вы проиграли` : `Победа!`}</h2>`;
     const templateTail = `</section>`;
+    let templateTables = ``;
     const addTemplateTable = (answers, score, counter) => {
       return `<table class="result__table">
         <tr>
@@ -56,15 +56,11 @@ export class StatsView extends AbstractView {
         </tr>
       </table>`;
     };
-    let tablesCounter = 1;
-    let templateTables = addTemplateTable(currentAnswers, currentScore, tablesCounter);
-    while (this.allResults.length > 0) {
-      currentResult = this.allResults.pop();
-      currentAnswers = currentResult.answers;
-      currentScore = scoring(currentAnswers, currentResult.lives);
-      tablesCounter++;
-      templateTables = templateTables + addTemplateTable(currentAnswers, currentScore, tablesCounter);
-    }
+    this.allResults.forEach((it) => {
+      const currentScore = scoring(it.answers, it.lives);
+      templateTables = addTemplateTable(it.answers, currentScore, tablesCounter) + templateTables;
+      tablesCounter--;
+    });
     return `${templateStart}
       ${templateTables}
     ${templateTail}`;
