@@ -14,13 +14,13 @@ export default class GameScreen {
 
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
-    this.backToGreeting = this.backToGreeting.bind(this);
-    this.gameHeader.onBack = this.backToGreeting;
-    this.createGameHandlers = this.createGameHandlers.bind(this);
+    this._backToGreeting = this._backToGreeting.bind(this);
+    this.gameHeader.onBack = this._backToGreeting;
+    this._createGameHandlers = this._createGameHandlers.bind(this);
   }
 
-  backToGreeting() {
-    this.stopTimer();
+  _backToGreeting() {
+    this._stopTimer();
     this.model.resetGame();
     Application.showGreeting();
   }
@@ -29,29 +29,29 @@ export default class GameScreen {
     return [this.gameHeader.element, this.currentGameScreen.element];
   }
 
-  startTimer() {
+  _startTimer() {
     this._timer = setTimeout(() => {
       this.model.tick();
       if (this.model.state.time >= 30) {
-        this.stopTimer();
-        this.answeredQuestion({"answer": false, "time": 30});
+        this._stopTimer();
+        this._answeredQuestion({"answer": false, "time": 30});
       } else {
-        this.updateHeader();
-        this.startTimer();
+        this._updateHeader();
+        this._startTimer();
       }
     }, 1000);
   }
 
-  stopTimer() {
+  _stopTimer() {
     clearTimeout(this._timer);
   }
 
   startPlaying() {
-    this.changeGameScreen();
-    this.startTimer();
+    this._changeGameScreen();
+    this._startTimer();
   }
 
-  createGameHandlers() {
+  _createGameHandlers() {
     if (this.currentQuestion.type === 1) {
       const _question1 = [];
       const _question2 = [];
@@ -76,17 +76,17 @@ export default class GameScreen {
 
       this.currentGameScreen.onChecked = () => {
         if (_allAnswered(_allQuestions)) {
-          this.stopTimer();
+          this._stopTimer();
           let _newAnswer = {
             "answer": ((_question1.find((it) => it.checked).value === this.currentQuestion.answers[0].correct) && (_question2.find((it) => it.checked).value === this.currentQuestion.answers[1].correct)),
             "time": this.model.state.time
           };
-          this.answeredQuestion(_newAnswer);
+          this._answeredQuestion(_newAnswer);
         }
       };
     } else {
       this.currentGameScreen.onChecked = (_inputElem) => {
-        this.stopTimer();
+        this._stopTimer();
         let _newAnswer;
         if (this.currentQuestion.type === 2) {
           _newAnswer = {
@@ -100,12 +100,12 @@ export default class GameScreen {
             "time": this.model.state.time
           };
         }
-        this.answeredQuestion(_newAnswer);
+        this._answeredQuestion(_newAnswer);
       };
     }
   }
 
-  answeredQuestion(_newAnswer) {
+  _answeredQuestion(_newAnswer) {
     this.model.addAnswer(_newAnswer.answer, _newAnswer.time);
     if (!_newAnswer.answer) {
       const _newLives = this.model.state.lives - 1;
@@ -123,23 +123,23 @@ export default class GameScreen {
     }
   }
 
-  changeGameScreen() {
+  _changeGameScreen() {
     this.currentQuestion = this.model.question;
     this.model.updateLevel(this.model.state.level + 1);
     this.model.resetTime();
     this.gameHeader = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
-    this.backToGreeting = this.backToGreeting.bind(this);
-    this.gameHeader.onBack = this.backToGreeting;
+    this._backToGreeting = this._backToGreeting.bind(this);
+    this.gameHeader.onBack = this._backToGreeting;
     this.currentGameScreen = new GameScreenView(this.currentQuestion, this.model.state.answers);
-    this.createGameHandlers = this.createGameHandlers.bind(this);
-    this.createGameHandlers();
+    this._createGameHandlers = this._createGameHandlers.bind(this);
+    this._createGameHandlers();
     selectScreen(this.gameHeader.element, this.currentGameScreen.element);
   }
 
-  updateHeader() {
+  _updateHeader() {
     const header = new HeaderView(true, {timer: this.model.state.time, lives: this.model.state.lives});
     replaceHeader(header.element, this.gameHeader.element);
     this.gameHeader = header;
-    this.gameHeader.onBack = this.backToGreeting;
+    this.gameHeader.onBack = this._backToGreeting;
   }
 }
