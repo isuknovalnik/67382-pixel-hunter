@@ -17,11 +17,12 @@ export const checkStatus = (response) => {
   }
 };
 
+const QUESTIONS_URL = `https://es.dump.academy/pixel-hunter/questions`;
 let gameData;
 export default class Application {
 
   static start() {
-    window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
+    window.fetch(QUESTIONS_URL).
       then(checkStatus).
       then((response) => response.json()).
       then((data) => {
@@ -58,8 +59,7 @@ export default class Application {
     Loader.saveResults(model.state, playerName).
       then(() => Loader.loadResults(playerName)).
       then((data) => {
-        let statistics;
-        statistics = new StatsScreen(data);
+        const statistics = new StatsScreen(data);
         selectScreen(...statistics.element);
       }).
       catch(Application.showError);

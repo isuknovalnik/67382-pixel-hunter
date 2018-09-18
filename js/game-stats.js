@@ -1,3 +1,5 @@
+const MAX_RESULTS_LENGTH = 10;
+
 const makeStatsElement = (result) => {
   if (result.answer) {
     if (result.time < 10) {
@@ -22,6 +24,6 @@ const makeUnknownElements = (n) => {
 
 export const gameStats = (results) => {
   return `<ul class="stats">
-    ${[...results].map((it) => makeStatsElement(it)).join(``)}${(results.length === 10) ? `` : makeUnknownElements(10 - results.length)}
+    ${[...results].map((it) => makeStatsElement(it)).join(``)}${(results.length === MAX_RESULTS_LENGTH) ? `` : makeUnknownElements(MAX_RESULTS_LENGTH - results.length)}
   </ul>`;
 };
